@@ -1,0 +1,36 @@
+﻿version: "3.9"
+
+services:
+  web_api:
+    image: blogpost_api_test
+    container_name: blogpost_api_application
+    ports:
+      - "5000:8080"
+    depends_on:
+      - postgres
+    networks:
+      - ossy_network
+    environment:
+      - ConnectionStrings__DefaultConnection=User ID=ossy;Password=ieosaHoN@12;Host=postgres;Port=5432;Database=BlogPost;IntegratedSecurity=true;Pooling=true;
+
+  postgres:
+    image: postgres:latest
+    container_name: ossy_postgres
+    environment:
+      POSTGRES_USER: ossy
+      POSTGRES_PASSWORD: ieosaHoN@12
+      POSTGRES_DB: BlogPost
+    restart: always
+    volumes:
+      - ossy_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5050:5432"
+    networks:
+      - ossy_network
+
+networks:
+  ossy_network:
+    driver: bridge
+
+volumes:
+  ossy_pgdata:
